@@ -1,4 +1,3 @@
-# org.acme.enginesupplychain
 ## Hyperledger Fabric & Composer "Engine Supplychain" example
 
 This repository defines the source code for a Hyperledger Composer Business Network Definition. The network models a consortium of engine manufacturers and merchants which trace the production, sale and installation of car engines into cars of end customers.
@@ -39,9 +38,16 @@ There are different roles/personas: `Manufacturer`, `Merchant` and the interests
 
 ## How to use?
 
-* Install pre-requisites for Hyperledger Fabric
-* Install pre-requisites for Hyperledger Composer
-* Install Composer and its dev tools itself
-* Compile this repository to a `.bna` file: `cd fabric-composer-engine-supplychain && composer archive create -t dir -n .`
+Pre-requisites:
+
+1. Install [pre-requisites for Hyperledger Fabric](http://hyperledger-fabric.readthedocs.io/en/latest/prereqs.html)
+2. Install [pre-requisites for Hyperledger Composer](https://hyperledger.github.io/composer/installing/installing-prereqs)
+3. Install [Composer and its (dev) tools](https://hyperledger.github.io/composer/installing/development-tools)
+
+Working with the repo:
+
+1. Install dependencies and dev-dependencies: `yarn install`
+2. Run unit tests: `yarn test`
+3. Compile this repository to a `.bna` file: `cd fabric-composer-engine-supplychain && composer archive create -t dir -n .`
 
 For more information on Fabric and Composer and how to deploy `.bna` files to Fabric Networks, please read their development and operations documentation.
