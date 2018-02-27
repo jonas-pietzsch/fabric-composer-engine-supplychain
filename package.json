@@ -1,0 +1,22 @@
+{
+  "name": "fabric-composer-engine-supplychain",
+  "version": "0.0.1",
+  "description": "Tracing engines from production to end customers in a Hyperledger Composer Business Network Definition.",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "author": "Jonas Verhoelen",
+  "email": "jonas.verhoelen@codecentric.de",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "composer-admin": "latest",
+    "composer-client": "latest",
+    "composer-common": "latest",
+    "composer-connector-embedded": "latest",
+    "chai": "latest",
+    "eslint": "latest",
+    "istanbul": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}
