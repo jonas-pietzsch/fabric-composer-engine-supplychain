@@ -104,11 +104,11 @@ describe('EngineSupplychainSpec', () => {
 
             const engineCreationTrans = factory.newTransaction(namespace, 'EngineCreation')
             engineCreationTrans.data = factory.newConcept(namespace, 'EngineProperties')
-            engineCreationTrans.data.brand = 'Mercedes'
-            engineCreationTrans.data.model = 'V12'
+            engineCreationTrans.data.brand = 'Audi'
+            engineCreationTrans.data.model = 'Fancy engine model'
             engineCreationTrans.data.horsePower = 400
             engineCreationTrans.data.cubicCapacity = 4000
-            engineCreationTrans.data.cylindersAmount = 12
+            engineCreationTrans.data.cylindersAmount = 10
 
             const manufacturerRegistry = await bnc.getParticipantRegistry(namespace + '.Manufacturer')
             await manufacturerRegistry.addAll([])
