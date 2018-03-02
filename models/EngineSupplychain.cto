@@ -67,16 +67,6 @@ transaction EngineCarInstallation {
     --> Car car
 }
 
-transaction WarrantyClaim {
-    --> Engine engine
-    --> Car car
-}
-
-transaction StolenReport {
-    --> Engine engine
-    --> Car car
-}
-
 transaction EngineCreation {
     --> Manufacturer manufacturer
     o EngineProperties data
@@ -85,3 +75,15 @@ transaction EngineCreation {
 transaction CarCreation {
     o String legalIdDocument
 }
+
+// TODO: transaction logic and unit tests not yet implemented
+
+// transaction WarrantyClaim {
+//     --> Engine engine
+//     --> Car car
+// }
+
+// transaction StolenReport {
+//     --> Engine engine
+//     --> Car car
+// }
