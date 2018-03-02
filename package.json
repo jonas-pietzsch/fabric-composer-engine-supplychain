@@ -6,7 +6,7 @@
     "test": "mocha -t 0 --recursive",
     "doc": "jsdoc --pedantic --recurse -c jsdoc.json",
     "lint": "eslint .",
-    "createArchive": "mkdirp ./dist && composer archive create  --sourceType dir --sourceName . -a ./dist/engine-supplychain.bna"
+    "createArchive": "npm run lint && npm run test && mkdirp ./dist && composer archive create  --sourceType dir --sourceName . -a ./dist/engine-supplychain.bna"
   },
   "engines": {
     "composer": "^0.18.0"

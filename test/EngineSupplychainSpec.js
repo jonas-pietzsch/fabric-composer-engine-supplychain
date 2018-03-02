@@ -10,13 +10,23 @@ require('chai').should()
 
 const namespace = 'org.acme.enginesupplychain'
 
-describe('Engine asset', () => {
+describe('EngineSupplychainSpec', () => {
     // In-memory card store for testing so cards are not persisted to the file system
     const cardStore = require('composer-common').NetworkCardStoreManager.getCardStore( { type: 'composer-wallet-inmemory' } )
     let adminConnection
-    let businessNetworkConnection
+    let bnc
+
+    // test resources
     let testManufacturer
+    let testMerchant
+    let testEngine
+    let testCar
+
+    // and their registries
     let manufacturerRegistry
+    let merchantRegistry
+    let engineRegistry
+    let carRegistry
 
     before(async () => {
         // Embedded connection used for local testing
@@ -44,7 +54,7 @@ describe('Engine asset', () => {
     })
 
     beforeEach(async () => {
-        businessNetworkConnection = new BusinessNetworkConnection({ cardStore: cardStore })
+        bnc = new BusinessNetworkConnection({ cardStore: cardStore })
 
         const adminUserName = 'admin'
         let adminCardName
@@ -69,17 +79,28 @@ describe('Engine asset', () => {
         await adminConnection.importCard(adminCardName, adminCards.get(adminUserName))
 
         // Connect to the business network using the network admin identity
-        await businessNetworkConnection.connect(adminCardName)
+        await bnc.connect(adminCardName)
 
-        const factory = businessNetworkConnection.getBusinessNetwork().getFactory()
-        manufacturerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Manufacturer')
+        const factory = bnc.getBusinessNetwork().getFactory()
+        manufacturerRegistry = await bnc.getParticipantRegistry(namespace + '.Manufacturer')
+        merchantRegistry = await bnc.getParticipantRegistry(namespace + '.Merchant')
+        engineRegistry = await bnc.getAssetRegistry(namespace + '.Engine')
+        carRegistry = await bnc.getAssetRegistry(namespace + '.Car')
+
         testManufacturer = helpers.createManufacturer(namespace, factory, 'test-manufacturer')
-        manufacturerRegistry.addAll([testManufacturer])
+        testMerchant = helpers.createMerchant(namespace, factory, 'test-merchant')
+        testEngine = helpers.createEngine(namespace, factory, 'test-engine', testManufacturer)
+        testCar = helpers.createCar(namespace, factory, 'test-car')
+
+        await manufacturerRegistry.addAll([testManufacturer])
+        await merchantRegistry.addAll([testMerchant])
+        await engineRegistry.addAll([testEngine])
+        await carRegistry.addAll([testCar])
     })
 
-    describe('#createEngineAsset', () => {
+    describe('createEngineAsset', () => {
         it('should create an Engine by submitting a valid EngineCreation transaction', async () => {
-            const factory = businessNetworkConnection.getBusinessNetwork().getFactory()
+            const factory = bnc.getBusinessNetwork().getFactory()
 
             const engineCreationTrans = factory.newTransaction(namespace, 'EngineCreation')
             engineCreationTrans.data = factory.newConcept(namespace, 'EngineProperties')
@@ -89,15 +110,62 @@ describe('Engine asset', () => {
             engineCreationTrans.data.cubicCapacity = 4000
             engineCreationTrans.data.cylindersAmount = 12
 
-            const manufacturerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Manufacturer')
+            const manufacturerRegistry = await bnc.getParticipantRegistry(namespace + '.Manufacturer')
             await manufacturerRegistry.addAll([])
             engineCreationTrans.manufacturer = factory.newRelationship(namespace, 'Manufacturer', testManufacturer.$identifier)
 
-            await businessNetworkConnection.submitTransaction(engineCreationTrans)
+            await bnc.submitTransaction(engineCreationTrans)
 
-            const engineRegistry = await businessNetworkConnection.getAssetRegistry(namespace + '.Engine')
+            const allEngines = await engineRegistry.getAll()
+            allEngines.length.should.equal(2)
+        })
+    })
+
+    describe('transferEngineToMerchant', () => {
+        it('should set the reference to a merchant for an engine', async () => {
+            const factory = bnc.getBusinessNetwork().getFactory()
+
+            const transferTrans = factory.newTransaction(namespace, 'EngineMerchantTransfer')
+            transferTrans.merchant = factory.newRelationship(namespace, 'Merchant', testMerchant.$identifier)
+            transferTrans.engine = factory.newRelationship(namespace, 'Engine', testEngine.$identifier)
+
+            await bnc.submitTransaction(transferTrans)
+
             const allEngines = await engineRegistry.getAll()
             allEngines.length.should.equal(1)
+            allEngines[0].merchant.$identifier.should.equal(testMerchant.$identifier)
+        })
+    })
+
+    describe('installEngineToCar', () => {
+        it('should set the reference to a car for an engine', async () => {
+            const factory = bnc.getBusinessNetwork().getFactory()
+
+            const installTrans = factory.newTransaction(namespace, 'EngineCarInstallation')
+            installTrans.engine = factory.newRelationship(namespace, 'Engine', testEngine.$identifier)
+            installTrans.car = factory.newRelationship(namespace, 'Car', testCar.$identifier)
+
+            await bnc.submitTransaction(installTrans)
+
+            const allEngines = await engineRegistry.getAll()
+            allEngines.length.should.equal(1)
+            allEngines[0].currentCar.$identifier.should.equal(testCar.$identifier)
+        })
+    })
+
+    describe('createCar', () => {
+        it('should insert a new Car asset', async () => {
+            const factory = bnc.getBusinessNetwork().getFactory()
+
+            const createCarTrans = factory.newTransaction(namespace, 'CarCreation')
+            createCarTrans.legalIdDocument = 'some-important-car-id'
+
+            await bnc.submitTransaction(createCarTrans)
+
+            const allCars = await carRegistry.getAll()
+            allCars.length.should.equal(2)
+            allCars[0].legalDocumentId.should.equal('some-important-car-id')
+            allCars[1].legalDocumentId.should.equal('legal-id-of-this-car')
         })
     })
 })

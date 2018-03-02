@@ -32,9 +32,13 @@ There are different roles/personas: `Manufacturer`, `Merchant` and the interests
 1. As a `Manufacturer` I want to be able to create produced motors with a unique serial number in order to track further history of it and prove uniqueness.
 2. As a `Manufacturer` I want to be able to transfer ownership of inserted motors to a `Merchant` in order to model a sell proccess to it.
 3. As a `Merchant` I want to be able to transfer an owned motor to a `Customer` in order to model a sell process/installation process into his car.
+
+## Further feature ideas
+
+These are further ideas but did not have been implemented yet.
+
 4. As a `Customer` I want to claim the two-year warranty by help of a `Merchant` at a `Manufacturer` in order to get a motors' damage repaired or refunded.
 5. As a `Customer` or `Merchant` or `Manufacturer` I want to report a stolen motor in order to let everyone know that its serial number now resolves to a stolen item.
-
 
 ## How to use?
 
@@ -44,10 +48,13 @@ Pre-requisites:
 2. Install [pre-requisites for Hyperledger Composer](https://hyperledger.github.io/composer/installing/installing-prereqs)
 3. Install [Composer and its (dev) tools](https://hyperledger.github.io/composer/installing/development-tools)
 
+The source code is implemented in JavaScript ES6 so it can make use of nice language features such as `async` and `await`, spread/destruct operators and so on.
+
 Working with the repo:
 
-1. Install dependencies and dev-dependencies: `yarn install`
-2. Run unit tests: `yarn test`
-3. Compile this repository to a `.bna` file: `cd fabric-composer-engine-supplychain && composer archive create -t dir -n .`
+1. Install dependencies and dev-dependencies: `npm install`
+2. Run ESlint: `npm run lint`
+3. Run unit tests: `npm test`
+4. Compile this repository to a `.bna` file: `npm run createArchive`
 
 For more information on Fabric and Composer and how to deploy `.bna` files to Fabric Networks, please read their development and operations documentation.
