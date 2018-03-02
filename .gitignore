@@ -2,3 +2,4 @@
 *.bna
 node_modules/
 composer-logs/
+dist/

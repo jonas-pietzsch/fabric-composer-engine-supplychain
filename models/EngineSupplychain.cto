@@ -41,16 +41,16 @@ asset Car identified by carId {
  * Participants
  */
 
-participant Manufacturer identified by manufacturerId {
-	  o String manufacturerId
-    o String name
-    o Address address
+participant Member identified by memberId {
+  o String memberId
+  o String name
+  o Address address optional
 }
 
-participant Merchant identified by merchantId {
-	  o String merchantId
-    o String name
-    o Address address
+participant Manufacturer extends Member {
+}
+
+participant Merchant extends Member {
 }
 
 /*

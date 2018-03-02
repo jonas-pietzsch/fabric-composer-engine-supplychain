@@ -3,23 +3,27 @@
   "version": "0.0.1",
   "description": "Tracing engines from production to end customers in a Hyperledger Composer Business Network Definition.",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha -t 0 --recursive",
+    "doc": "jsdoc --pedantic --recurse -c jsdoc.json",
+    "lint": "eslint .",
+    "createArchive": "mkdirp ./dist && composer archive create  --sourceType dir --sourceName . -a ./dist/engine-supplychain.bna"
+  },
+  "engines": {
+    "composer": "^0.18.0"
   },
   "author": "Jonas Verhoelen",
   "email": "jonas.verhoelen@codecentric.de",
   "license": "Apache-2.0",
   "devDependencies": {
-    "chai": "latest",
-    "composer-admin": "latest",
-    "composer-client": "latest",
-    "composer-common": "latest",
-    "composer-connector-embedded": "latest",
-    "eslint": "latest",
-    "istanbul": "latest",
-    "mkdirp": "latest",
-    "mocha": "latest"
-  },
-  "dependencies": {
-    "uuid": "^3.2.1"
+    "chai": "^3.5.0",
+    "composer-admin": "^0.18.0-0",
+    "composer-cli": "^0.18.0-0",
+    "composer-client": "^0.18.0-0",
+    "composer-common": "^0.18.0-0",
+    "composer-connector-embedded": "^0.18.0-0",
+    "eslint": "^3.6.1",
+    "istanbul": "^0.4.5",
+    "mkdirp": "^0.5.1",
+    "mocha": "^3.2.0"
   }
 }
