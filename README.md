@@ -1,4 +1,3 @@
-# org.acme.enginesupplychain
 ## Hyperledger Fabric & Composer "Engine Supplychain" example
 
 This repository defines the source code for a Hyperledger Composer Business Network Definition. The network models a consortium of engine manufacturers and merchants which trace the production, sale and installation of car engines into cars of end customers.
