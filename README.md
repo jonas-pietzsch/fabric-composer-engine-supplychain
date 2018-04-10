@@ -5,8 +5,7 @@ This repository defines the source code for a Hyperledger Composer Business Netw
 ## Branching strategy
 
 Initial and final versions are stored in two separate branches to guide developers throw the process of developing a Business Network Definition for Composer.
-This repository was created to demo the engine supplychain application [in a German article for Informatik Aktuell](https://www.informatik-aktuell.de).
-There is also an [english version at codecentric AG blog](https://blog.codecentric.de).
+This repository was created to demo the engine supplychain application [in a German article for Informatik Aktuell](https://www.informatik-aktuell.de/betrieb/virtualisierung/eine-blockchain-anwendung-mit-hyperledger-fabric-und-composer.html).
 
 
 ### Initial version (default branch)
