@@ -9,18 +9,22 @@
     "createArchive": "npm run lint && npm run test && mkdirp ./dist && composer archive create  --sourceType dir --sourceName . -a ./dist/engine-supplychain.bna"
   },
   "engines": {
-    "composer": "^0.18.0"
+    "composer": "^0.19.12"
   },
   "author": "Jonas Verhoelen",
   "email": "jonas.verhoelen@codecentric.de",
   "license": "Apache-2.0",
   "devDependencies": {
     "chai": "^3.5.0",
-    "composer-admin": "^0.18.0-0",
-    "composer-cli": "^0.18.0-0",
-    "composer-client": "^0.18.0-0",
-    "composer-common": "^0.18.0-0",
-    "composer-connector-embedded": "^0.18.0-0",
+    "composer-admin": "0.19.12",
+    "composer-cli": "0.19.12",
+    "composer-client": "0.19.12",
+    "composer-common": "0.19.12",
+    "composer-connector-embedded": "0.19.12",
+    "composer-cucumber-steps": "0.19.12",
+    "composer-wallet-inmemory": "0.19.12",
+    "composer-wallet-filesystem": "0.19.12",
+    "composer-connector-hlfv1": "0.19.12",
     "eslint": "^3.6.1",
     "istanbul": "^0.4.5",
     "mkdirp": "^0.5.1",
