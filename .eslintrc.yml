@@ -35,13 +35,4 @@ rules:
     no-useless-call: error
     no-with: error
     operator-linebreak: error
-    # require-jsdoc:
-    #     - error
-    #     - require:
-    #         ClassDeclaration: true
-    #         MethodDefinition: true
-    #         FunctionDeclaration: true
-    # valid-jsdoc:
-    #     - error
-    #     - requireReturn: false
     yoda: error
