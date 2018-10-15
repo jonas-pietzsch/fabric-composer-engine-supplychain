@@ -89,6 +89,7 @@ describe('EngineSupplychainSpec', () => {
             const factory = bnc.getBusinessNetwork().getFactory()
 
             const engineCreationTrans = factory.newTransaction(namespace, 'EngineCreation')
+            engineCreationTrans.engineId = 'new-engine-id'
             engineCreationTrans.data = factory.newConcept(namespace, 'EngineProperties')
             engineCreationTrans.data.brand = 'Audi'
             engineCreationTrans.data.model = 'Fancy engine model'
@@ -144,6 +145,7 @@ describe('EngineSupplychainSpec', () => {
             const factory = bnc.getBusinessNetwork().getFactory()
 
             const createCarTrans = factory.newTransaction(namespace, 'CarCreation')
+            createCarTrans.carId = 'my-new-car-id'
             createCarTrans.legalIdDocument = 'some-important-car-id'
 
             await bnc.submitTransaction(createCarTrans)

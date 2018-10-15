@@ -3,30 +3,40 @@
   "version": "0.0.1",
   "description": "Tracing engines from production to end customers in a Hyperledger Composer Business Network Definition.",
   "scripts": {
-    "test": "mocha -t 0 --recursive",
-    "lint": "eslint .",
-    "createArchive": "npm run lint && npm run test && mkdirp ./dist && composer archive create  --sourceType dir --sourceName . -a ./dist/engine-supplychain.bna"
-  },
-  "engines": {
-    "composer": "0.19.13"
+    "lint": "eslint 'lib/**/*.js' 'test/**/*.js'",
+    "test:unit": "nyc --reporter=html --reporter=text mocha -t 0 test/*Spec.js",
+    "test:bdd": "cucumber-js",
+    "test:all": "npm run test:unit && npm run test:bdd",
+    "test": "npm run test:all",
+    "prepush": "npm run lint && npm run test:all",
+    "archive:create": "mkdirp ./dist && composer archive create  --sourceType dir --sourceName . -a ./dist/engine-supplychain.bna",
+    "local:install": "composer network install -a dist/engine-supplychain.bna --card PeerAdmin@hlfv11",
+    "local:start": "composer network start -n engine-supplychain -V $VERSION --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv11 --file local-network-admin.card",
+    "local:upgrade": "composer network upgrade -c PeerAdmin@hlfv11 -n engine-supplychain -V $VERSION"
   },
   "author": "Jonas Verhoelen",
   "email": "jonas.verhoelen@codecentric.de",
   "license": "Apache-2.0",
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "3.5.0",
+    "chai-as-promised": "6.0.0",
+    "chai-shallow-deep-equal": "1.4.6",
     "composer-admin": "0.19.13",
     "composer-cli": "0.19.13",
     "composer-client": "0.19.13",
     "composer-common": "0.19.13",
     "composer-connector-embedded": "0.19.13",
-    "composer-cucumber-steps": "0.19.13",
-    "composer-wallet-inmemory": "0.19.13",
-    "composer-wallet-filesystem": "0.19.13",
     "composer-connector-hlfv1": "0.19.13",
-    "eslint": "^3.6.1",
-    "istanbul": "^0.4.5",
-    "mkdirp": "^0.5.1",
-    "mocha": "^3.2.0"
+    "composer-cucumber-steps": "0.19.13",
+    "composer-wallet-filesystem": "0.19.13",
+    "composer-wallet-inmemory": "0.19.13",
+    "cucumber": "^2.2.0",
+    "eslint": "3.19.0",
+    "husky": "^0.14.3",
+    "mkdirp": "0.5.1",
+    "mocha": "3.5.3",
+    "nyc": "11.1.0",
+    "retire": "^2.0.0",
+    "thenify-all": "1.6.0"
   }
 }

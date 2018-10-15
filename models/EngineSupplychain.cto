@@ -68,11 +68,13 @@ transaction EngineCarInstallation {
 }
 
 transaction EngineCreation {
+    o String engineId
     --> Manufacturer manufacturer
     o EngineProperties data
 }
 
 transaction CarCreation {
+    o String carId
     o String legalIdDocument
 }
 
