@@ -4,27 +4,26 @@
   "description": "Tracing engines from production to end customers in a Hyperledger Composer Business Network Definition.",
   "scripts": {
     "test": "mocha -t 0 --recursive",
-    "doc": "jsdoc --pedantic --recurse -c jsdoc.json",
     "lint": "eslint .",
     "createArchive": "npm run lint && npm run test && mkdirp ./dist && composer archive create  --sourceType dir --sourceName . -a ./dist/engine-supplychain.bna"
   },
   "engines": {
-    "composer": "^0.19.12"
+    "composer": "0.19.13"
   },
   "author": "Jonas Verhoelen",
   "email": "jonas.verhoelen@codecentric.de",
   "license": "Apache-2.0",
   "devDependencies": {
     "chai": "^3.5.0",
-    "composer-admin": "0.19.12",
-    "composer-cli": "0.19.12",
-    "composer-client": "0.19.12",
-    "composer-common": "0.19.12",
-    "composer-connector-embedded": "0.19.12",
-    "composer-cucumber-steps": "0.19.12",
-    "composer-wallet-inmemory": "0.19.12",
-    "composer-wallet-filesystem": "0.19.12",
-    "composer-connector-hlfv1": "0.19.12",
+    "composer-admin": "0.19.13",
+    "composer-cli": "0.19.13",
+    "composer-client": "0.19.13",
+    "composer-common": "0.19.13",
+    "composer-connector-embedded": "0.19.13",
+    "composer-cucumber-steps": "0.19.13",
+    "composer-wallet-inmemory": "0.19.13",
+    "composer-wallet-filesystem": "0.19.13",
+    "composer-connector-hlfv1": "0.19.13",
     "eslint": "^3.6.1",
     "istanbul": "^0.4.5",
     "mkdirp": "^0.5.1",
