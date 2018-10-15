@@ -1,0 +1,72 @@
+image: node:8.12.0
+
+variables:
+  COMPOSER_CMD: "./node_modules/.bin/composer"
+  RETIRE_CMD: "./node_modules/.bin/retire"
+
+stages:
+  - security-and-setup
+  - test
+  - deploy-and-release
+
+install-dependencies:
+  stage: security-and-setup
+  script: npm install --progress=false
+  cache:
+    paths:
+      - node_modules/
+
+npm-audit-security-check:
+  stage: security-and-setup
+  script: npm audit
+
+retire-security-check:
+  stage: security-and-setup
+  script: ${RETIRE_CMD} -p
+
+install-dependencies:
+  stage: security-and-setup
+  script: npm install --progress=false
+  cache:
+    paths:
+      - node_modules/
+
+lint:
+  stage: test
+  script: npm run lint
+  dependencies:
+    - install-dependencies
+
+unit-tests:
+  stage: test
+  script: npm run test:unit
+  dependencies:
+    - install-dependencies
+
+bdd-tests:
+  stage: test
+  script: npm run test:bdd
+  dependencies:
+    - install-dependencies
+
+patch-deploy-publish:
+  stage: release-and-deploy
+  before_script:
+    - wget ${COMPOSER_DEV_CARD_LOCATION}
+    - ${COMPOSER_CMD} card import --file fabric-dev-peer-admin.card
+    - ${COMPOSER_CMD} card list
+  script:
+    - git config user.name "Gitlab CI" && git config user.email "some-product-team@codecentric.de"
+    - NEW_APP_VERSION="$(npm version patch -m '[skip ci] patch version upgrade')"
+    - npm run archive:create
+    - ${COMPOSER_CMD} network install -a dist/engine-supplychain.bna --card PeerAdmin@hlfv1
+    - ${COMPOSER_CMD} network start -n engine-supplychain -V ${NEW_APP_VERSION/v/} --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv11 --file local-network-admin.card || ${COMPOSER_CMD} network upgrade -c PeerAdmin@hlfv1 -n engine-supplychain -V ${NEW_APP_VERSION/v/}
+  after_script:
+    - git push https://mygitlabname:${PRIVATE_ACCESS_TOKEN_MYGITLABNAME}@gitlab.com/${CI_PROJECT_PATH}.git HEAD:master --follow-tags
+  only:
+    - master
+  artifacts:
+    paths:
+      - dist/engine-supplychain.bna
+      - local-network-admin.card
+    expire_in: 2 week
