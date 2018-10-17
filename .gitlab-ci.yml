@@ -1,8 +1,11 @@
 image: node:8.12.0
 
+cache:
+  paths:
+    - node_modules/
+
 variables:
   COMPOSER_CMD: "./node_modules/.bin/composer"
-  RETIRE_CMD: "./node_modules/.bin/retire"
 
 stages:
   - security-and-setup
@@ -12,24 +15,16 @@ stages:
 install-dependencies:
   stage: security-and-setup
   script: npm install --progress=false
-  cache:
-    paths:
-      - node_modules/
 
 npm-audit-security-check:
   stage: security-and-setup
   script: npm audit
 
 retire-security-check:
-  stage: security-and-setup
-  script: ${RETIRE_CMD} -p
-
-install-dependencies:
-  stage: security-and-setup
-  script: npm install --progress=false
-  cache:
-    paths:
-      - node_modules/
+  stage: test
+  script: ./node_modules/.bin/retire -p
+  dependencies:
+    - install-dependencies
 
 lint:
   stage: test
