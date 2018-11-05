@@ -5,3 +5,5 @@ composer-logs/
 coverage/
 .nyc_output/
 dist/
+coverage/
+.nyc_output/
